@@ -12,6 +12,9 @@ import '../../relayer/url_builder.dart';
 
 part '../provider/types/inbound_message.dart';
 
+import 'register_web_webview_stub.dart'
+    if (dart.library.html) 'register_web.dart';
+
 class WebViewRelayer extends StatefulWidget {
   final Map<int, Completer> _messageHandlers = {};
   final List<RelayerRequest> _queue = [];
@@ -98,6 +101,7 @@ class WebViewRelayerState extends State<WebViewRelayer> {
     super.initState();
     // Enable hybrid composition.
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+      registerWebViewWebImplementation();
   }
 
   @override
@@ -128,6 +132,8 @@ class WebViewRelayerState extends State<WebViewRelayer> {
         widget.handleResponse(message);
       }
     }
+
+    // Here is where to include compatibility & support for magic flutter web
 
     return Visibility(
         visible: widget._isOverlayVisible,
